@@ -6,9 +6,9 @@ import twitter4j.StatusDeletionNotice;
 import twitter4j.StatusListener;
 
 public class TweetStatusListener implements StatusListener {
-	private Classifier classifier;
+	private SMOClassifier classifier;
 	public TweetStatusListener(){
-		classifier = new Classifier();
+		classifier = new SMOClassifier();
 	}
 	
 	@Override
@@ -40,15 +40,12 @@ public class TweetStatusListener implements StatusListener {
 		// TODO Auto-generated method stub
 		//do the classification here. if it fit any of the official categories, trigger the website to refresh.
         System.out.println(status.getUser().getName() + " : " + status.getText());
-        Tweet tweet = new Tweet(status);
-        Category category = classifier.classify(tweet);
+        Category category = classifier.classify(status);
         
         if(category!= null){
         	//insert in db
         	
         }
-        
-        
 	}
 
 	@Override

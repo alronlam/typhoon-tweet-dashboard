@@ -9,14 +9,7 @@ public class Tweet {
     private String date;
     private Double latitude;
     private Double longitude;
-    
-    public Tweet(Status status){
-    	this.id = status.getId();
-    	this.username = status.getUser().getName();
-    	this.text = status.getText();
-    	this.date = status.getCreatedAt().toString();
-    }
-    
+        
     public Tweet(long id, String username, String text, 
                 String date, Double latitude, Double longitude) {
         this.id = id;

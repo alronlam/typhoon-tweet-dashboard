@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tweet.Tweet;
+import weka.classifiers.Classifier;
+import weka.classifiers.Evaluation;
+import weka.classifiers.functions.SMO;
+import weka.classifiers.meta.FilteredClassifier;
 import weka.core.Attribute;
 import weka.core.FastVector;
 import weka.core.Instance;
@@ -24,6 +28,39 @@ public class TweetToBagOfWordsConverter {
     		Instances rawDataset = createDataset(tweets); //pass the input file, delimiter, and number of desired entries
        		Instances wordVectorSet = convertToWordVector(rawDataset);
        		saveToArff(wordVectorSet, desiredOutputFileLocation);
+       		
+       		
+       		wordVectorSet.setClassIndex(0); 
+       	 try {
+             //use the classifier that you want
+
+
+            rawDataset.setClassIndex(0);
+            
+            StringToWordVector filter = new StringToWordVector();
+ 			filter.setAttributeIndices("last");
+ 			
+ 			FilteredClassifier classifier = new FilteredClassifier();
+ 			classifier.setFilter(filter);
+ 			classifier.setClassifier(new SMO());
+ 			
+ 			classifier.buildClassifier(rawDataset);
+                    
+             //Evaluating the classifer
+             Evaluation eval = new Evaluation(rawDataset);
+             eval.evaluateModel(classifier,rawDataset);
+                    
+             //printing the summary of training
+             String strSummary = eval.toSummaryString();
+             System.out.println("-----------TRAINING SUMMARY---------");
+             System.out.println(strSummary);
+             System.out.println("------------------------------------");
+                    
+             //Serializing the classsifier object in to a file
+             weka.core.SerializationHelper.write("SMO.model",classifier);
+           }catch(Exception ex) {
+        	   ex.printStackTrace();
+           }
     	}
     }
     
