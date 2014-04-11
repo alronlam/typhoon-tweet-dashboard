@@ -115,7 +115,7 @@ public class DataManager {
                      tweet.getCreatedAt(),
                      tweet.getUser().getScreenName(),
                      tweet.getUser().getProfileImageURL(),
-                     category
+                     category.toString()
              };
                  ps = DAOUtil.prepareStatement(conn, SQL_CREATE, false, values);
                  ps.executeUpdate();

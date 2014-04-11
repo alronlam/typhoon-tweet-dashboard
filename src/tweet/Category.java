@@ -20,6 +20,14 @@ public enum Category {
         }    
     }
     
+    public static Category getCategory(String categoryName){
+    	 for (Category category : Category.class.getEnumConstants()) {
+    		 if(category.name.equals(categoryName))
+    			 return category;
+         }    
+    	 return null;
+    }
+    
     public static List<String> getValues() {
         return values;
     }
@@ -92,6 +100,22 @@ public enum Category {
     
     @Override
     public String toString() {
-        return name;
+        return getDescription();
+    }
+    
+    private String getDescription(){
+    	if(this.equals(RELIEF))
+    		return "Resource Coordination";
+    	if(this.equals(RESCUE))
+    		return "Urgent Rescue Needed";
+    	if(this.equals(SAFENOW))
+    		return "Urgent Rescue Resolution";
+    	if(this.equals(FLOOD))
+    		return "Damage Reporting";
+    	if(this.equals(TRACING))
+    		return "Missing People";
+    	if(this.equals(YOLANDA))
+    		return "Media Storm Coverage";
+    	return "";
     }
 }

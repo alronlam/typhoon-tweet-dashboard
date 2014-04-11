@@ -45,7 +45,7 @@ public class SMOClassifier {
 			try{
 				double pred = smoClassifier.classifyInstance(instances.instance(0)); 
 				String category = instances.classAttribute().value((int) pred);
-				System.out.println("Class predicted: " + category);
+				return Category.getCategory(category);
 			}catch(Exception e){e.printStackTrace();}
 		}
 		return null;

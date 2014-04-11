@@ -41,10 +41,11 @@ public class TweetStatusListener implements StatusListener {
 		//do the classification here. if it fit any of the official categories, trigger the website to refresh.
         System.out.println(status.getUser().getName() + " : " + status.getText());
         Category category = classifier.classify(status);
-        
+        System.out.println(category);
         if(category!= null){
         	//insert in db
-        	
+        	DataManager dm = new DataManager();
+        	//dm.insertTweet(status, category);
         }
 	}
 

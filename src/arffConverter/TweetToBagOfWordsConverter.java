@@ -26,15 +26,9 @@ public class TweetToBagOfWordsConverter {
     public static void createBagOfWordsARFF(List<Tweet> tweets, String desiredOutputFileLocation) throws Exception{
     	if(tweets.size() > 0 && desiredOutputFileLocation != null && !desiredOutputFileLocation.trim().isEmpty()){
     		Instances rawDataset = createDataset(tweets); //pass the input file, delimiter, and number of desired entries
-       		Instances wordVectorSet = convertToWordVector(rawDataset);
-       		saveToArff(wordVectorSet, desiredOutputFileLocation);
-       		
-       		
-       		wordVectorSet.setClassIndex(0); 
+       		//Instances wordVectorSet = convertToWordVector(rawDataset);
+       		//saveToArff(wordVectorSet, desiredOutputFileLocation);
        	 try {
-             //use the classifier that you want
-
-
             rawDataset.setClassIndex(0);
             
             StringToWordVector filter = new StringToWordVector();
