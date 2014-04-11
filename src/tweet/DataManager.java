@@ -102,4 +102,31 @@ public class DataManager {
         
         return result;
     }
+
+    public void insertTweet(Status tweet, Category category){
+    	 Connection conn = null;
+         PreparedStatement ps = null;
+         try {
+             conn = factory.getConnection();
+      
+             Object[] values = {
+                     tweet.getId(),
+                     tweet.getText(),
+                     tweet.getCreatedAt(),
+                     tweet.getUser().getScreenName(),
+                     tweet.getUser().getProfileImageURL(),
+                     category
+             };
+                 ps = DAOUtil.prepareStatement(conn, SQL_CREATE, false, values);
+                 ps.executeUpdate();
+             
+         }
+         catch (SQLException e) {
+             System.err.println(e.getMessage());
+         }
+         finally {
+             DAOUtil.close(conn, ps);
+         }
+    }
+    
 }

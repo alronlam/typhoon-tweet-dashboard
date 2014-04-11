@@ -11,8 +11,10 @@ public class Tweet {
     private Double longitude;
     
     public Tweet(Status status){
-    	
-    	
+    	this.id = status.getId();
+    	this.username = status.getUser().getName();
+    	this.text = status.getText();
+    	this.date = status.getCreatedAt().toString();
     }
     
     public Tweet(long id, String username, String text, 
