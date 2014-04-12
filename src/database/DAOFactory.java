@@ -1,4 +1,4 @@
-package tweet;
+package database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -18,9 +18,8 @@ import javax.servlet.ServletContext;
 public class DAOFactory {
 
     // Constants ----------------------------------------------------------------------------------
-	
     private static String url = "jdbc:sqlite:C:/Users/asus/workspace/Typhoon Tweet Dashboard/data/Tweets.db";
-
+    private static String classified_url = "jdbc:sqlite:C:/Users/asus/workspace/Typhoon Tweet Dashboard/data/ClassifiedTweets.db";
     // Actions ------------------------------------------------------------------------------------
 
     public static DAOFactory getInstance() {
@@ -36,6 +35,10 @@ public class DAOFactory {
 
     public Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url);
+    }
+    
+    public Connection getClassifiedConnection() throws SQLException {
+        return DriverManager.getConnection(classified_url);
     }
 }
 

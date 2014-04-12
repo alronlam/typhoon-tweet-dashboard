@@ -100,10 +100,10 @@ public enum Category {
     
     @Override
     public String toString() {
-        return getDescription();
+        return name;
     }
     
-    private String getDescription(){
+    public String getDescription(){
     	if(this.equals(RELIEF))
     		return "Resource Coordination";
     	if(this.equals(RESCUE))

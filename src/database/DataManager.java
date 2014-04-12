@@ -1,4 +1,4 @@
-package tweet;
+package database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import tweet.Category;
+import tweet.Tweet;
 import twitter4j.Status;
 
 public class DataManager {
