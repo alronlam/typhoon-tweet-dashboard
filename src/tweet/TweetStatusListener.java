@@ -54,8 +54,8 @@ public class TweetStatusListener implements StatusListener {
         	Category category = classifier.classify(status);
             if(category!= null){
             	//insert in db
-            	//dm.insertTweet(status, category);
-            	System.out.println(category.getDescription());
+            	dm.insertTweet(status, category);
+            	//System.out.println(category.getDescription());
             	break; // only one category for now
             }
         }

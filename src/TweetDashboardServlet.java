@@ -55,17 +55,9 @@ public class TweetDashboardServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		 PrintWriter out = response.getWriter();
 	     Date date = new Date();
-	     DataManager dm = new DataManager();
-	     List<Tweet> tweets = dm.retrieveAll();
-	     
+	   
 	     out.println(HTML_START);
-	     out.println("<h1> tweets </h1>");
-
-	     for(Tweet tweet: tweets){
-	    	 out.println(tweet.getCleanText()+" <br>");
-	     }
-	     
-	     
+	     out.println("<h1> tweets </h1>");	     
 	     out.println(HTML_END);
 	}
 

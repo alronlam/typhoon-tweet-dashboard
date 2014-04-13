@@ -9,20 +9,23 @@ public class Tweet {
     private String date;
     private Double latitude;
     private Double longitude;
+    private String userPicURL;
+    private String category;
         
     public Tweet(long id, String username, String text, 
-                String date, Double latitude, Double longitude) {
+                String date, Double latitude, Double longitude, String userPicURL) {
         this.id = id;
         this.username = username;
         this.text = text;
         this.date = date;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.userPicURL = userPicURL;
     }
     
     public Tweet(long id, String username, String text, 
                 String date, String latitude, String longitude) {
-        this(id, username, text, date, (Double) null, (Double) null);
+        this(id, username, text, date, (Double) null, (Double) null, "");
         
         if (!latitude.isEmpty()) {
             this.latitude = Double.valueOf(latitude);
@@ -63,5 +66,17 @@ public class Tweet {
     public boolean isSingleCategory() {
         int count = Category.countCategories(text);
         return count == 1;
+    }
+    
+    public String getUserPicURL(){
+    	return userPicURL;
+    }
+
+    public String getFinalCategory(){
+    	return category;
+    }
+    
+    public void setFinalCategory(String category){
+    	this.category = category;
     }
 }
