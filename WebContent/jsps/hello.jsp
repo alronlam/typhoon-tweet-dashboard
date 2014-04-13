@@ -21,7 +21,7 @@
 <h1>Philippine Typhoon Tweet Dashboard</h1>
 <%
    // Set refresh, autoload time as 10 seconds
-   response.setIntHeader("Refresh", 10);
+   response.setIntHeader("Refresh", 30);
   
    ClassifiedTweetsDataManager dm = new ClassifiedTweetsDataManager();
   // Tweet last = dm.getLastInsertedTweet();
@@ -38,16 +38,13 @@
 %>
 			<div class = "categoryBox">
 				<h2> <%= category %></h2>
-				<% for(Tweet currTweet: tweetList){ %>
-					<div class = "tweetBox">
-						<div style="">
-							<img src = <%= currTweet.getUserPicURL() %> ></img>
-							@<%= currTweet.getUsername() %>
-						</div>
-						<div style="">
-							<%= currTweet.getText() %>
-						</div>
-					</div>
+				<% for(Tweet currTweet: tweetList){ 
+						
+				%>
+
+					<blockquote class="twitter-tweet" lang="en"><p>currTweet.getText()</p>&mdash; General Assembly (@GA) <a href= <%= currTweet.getLink() %>>Link</a></blockquote>
+					<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+						
 				 <% } %>
 			</div>
 <%  

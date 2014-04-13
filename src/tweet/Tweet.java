@@ -79,4 +79,8 @@ public class Tweet {
     public void setFinalCategory(String category){
     	this.category = category;
     }
+
+    public String getLink(){
+    	return  "https://twitter.com/"+username+"/statuses/"+id;
+    }
 }
