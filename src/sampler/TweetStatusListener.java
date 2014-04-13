@@ -1,10 +1,11 @@
-package tweet;
+package sampler;
 
 import java.util.ArrayList;
 
 import classifier.SMOClassifier;
 import database.ClassifiedTweetsDataManager;
 import database.DataManager;
+import tweet.Category;
 import twitter4j.StallWarning;
 import twitter4j.Status;
 import twitter4j.StatusDeletionNotice;
@@ -16,7 +17,7 @@ public class TweetStatusListener implements StatusListener {
 	public TweetStatusListener(){
 		binaryClassifiers = new ArrayList<SMOClassifier>();
 		for(Category category: Category.values())
-			binaryClassifiers.add(new SMOClassifier(category.name));
+			binaryClassifiers.add(new SMOClassifier(category.getName()));
 	}
 	
 	@Override
@@ -46,8 +47,8 @@ public class TweetStatusListener implements StatusListener {
 	@Override
 	public void onStatus(Status status) {
 		// TODO Auto-generated method stub
-		//do the classification here. if it fit any of the official categories, trigger the website to refresh.
-        System.out.println(status.getUser().getName() + " : " + status.getText());
+		//do the classification here. if it fit any of the official categories, place in the db
+        //System.out.println(status.getUser().getName() + " : " + status.getText());
 
     	ClassifiedTweetsDataManager dm = new ClassifiedTweetsDataManager();
         for(SMOClassifier classifier: binaryClassifiers){
@@ -59,8 +60,6 @@ public class TweetStatusListener implements StatusListener {
             	break; // only one category for now
             }
         }
-        
-      
 	}
 
 	@Override

@@ -36,7 +36,7 @@ public class ClassifiedTweetsDataManager {
                      tweet.getCreatedAt(),
                      tweet.getUser().getScreenName(),
                      tweet.getUser().getProfileImageURL(),
-                     category.toString()
+                     category.getName()
              };
                  ps = DAOUtil.prepareStatement(conn, SQL_CREATE, false, values);
                  ps.executeUpdate();
@@ -51,7 +51,6 @@ public class ClassifiedTweetsDataManager {
     }
 
     public Tweet getLastInsertedTweet(){
-    		System.out.println("******");
     	  List<Tweet> result = new ArrayList<>();
           Connection conn = null;
           PreparedStatement ps = null;
@@ -64,7 +63,6 @@ public class ClassifiedTweetsDataManager {
               rs = ps.executeQuery();
               
               while (rs.next()) {
-            	  System.out.println("pumasok!");
                   Tweet tweet = map(rs);
                   result.add(tweet);
                   break;
@@ -102,6 +100,41 @@ public class ClassifiedTweetsDataManager {
         }
         
         return result;
+    }
+    
+    public ArrayList<Tweet> getLastTweetsIn(int numTweets, Category category){
+    	  ArrayList<Tweet> tweets = new ArrayList<Tweet>();
+ 
+          Connection conn = null;
+          PreparedStatement ps = null;
+          ResultSet rs = null;
+          Object[] values = {};
+          try {
+              conn = factory.getClassifiedConnection();
+              String query = SQL_RETRIEVE+" WHERE category = '"+category.getName()+"' ORDER BY DATETIME DESC LIMIT "+numTweets;
+              ps = DAOUtil.prepareStatement(conn, query, false, values);
+              rs = ps.executeQuery();
+              
+              while (rs.next()) {
+                  Tweet tweet = map(rs);
+                  tweets.add(tweet);
+              }
+          }
+          catch (SQLException e) {
+              System.err.println(e.getMessage());
+          }
+          finally {
+              DAOUtil.close(conn, ps, rs);
+          }
+          return tweets;
+    }
+    
+    public ArrayList<ArrayList<Tweet>> getLatestTweetsInAllCategories(int numTweets){
+    	ArrayList<ArrayList<Tweet>> tweets = new ArrayList<ArrayList<Tweet>>();
+    	for(Category category: Category.values()){
+    		tweets.add(getLastTweetsIn(numTweets, category));
+    	}
+    	return tweets;
     }
     
 }

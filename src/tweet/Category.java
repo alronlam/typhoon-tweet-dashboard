@@ -3,6 +3,8 @@ package tweet;
 import java.util.ArrayList;
 import java.util.List;
 
+import database.ClassifiedTweetsDataManager;
+
 public enum Category {
     RELIEF("reliefph"), 
     RESCUE("rescueph"), 
@@ -103,6 +105,10 @@ public enum Category {
         return name;
     }
     
+    public String getName(){
+    	return this.name;
+    }
+    
     public String getDescription(){
     	if(this.equals(RELIEF))
     		return "Resource Coordination";
@@ -118,4 +124,5 @@ public enum Category {
     		return "Media Storm Coverage";
     	return "";
     }
+
 }
