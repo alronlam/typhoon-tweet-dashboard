@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import tweet.Category;
@@ -129,12 +131,12 @@ public class ClassifiedTweetsDataManager {
           return tweets;
     }
     
-    public ArrayList<ArrayList<Tweet>> getLatestTweetsInAllCategories(int numTweets){
-    	ArrayList<ArrayList<Tweet>> tweets = new ArrayList<ArrayList<Tweet>>();
+    public LinkedHashMap<Category, ArrayList<Tweet>> getLatestTweetsInAllCategories(int numTweets){
+    	LinkedHashMap<Category, ArrayList<Tweet>> tweetMap = new LinkedHashMap<Category, ArrayList<Tweet>>();
     	for(Category category: Category.values()){
-    		tweets.add(getLastTweetsIn(numTweets, category));
+    		tweetMap.put(category, getLastTweetsIn(numTweets, category));
     	}
-    	return tweets;
+    	return tweetMap;
     }
     
 }
