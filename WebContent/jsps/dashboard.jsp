@@ -7,12 +7,17 @@
 <%@ page import="database.*" %> 
 <%@ page import="sampler.*" %>
 <%@ page import="classifier.*" %>
-<%   
-	boolean liveStream = true;
 
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html style="height:100%">
+<head>
+<title>Typhoon Tweet Tracker</title>
+</head>
+<body style="height:100%">
+<%   
 	TweetSampler ts = TweetSampler.getInstance();
 	ts.setStatusListener(new TweetStatusListener());
-
+	boolean liveStream = false;
 	if(liveStream){
 		response.setIntHeader("Refresh", 60);
 		ts.sample();
@@ -26,18 +31,24 @@
 		Status tweet = ts.getTweetFromId(tweetId);
 		if(tweet != null){
 			TweetClassifierFacade classifierFacade = new TweetClassifierFacade();
-			classifierFacade.addToDBIfRelevant(tweet);
+			tweet.Category category = classifierFacade.addToDBIfRelevant(tweet);
 
+			String msg = "";
+			if(category == null)
+				msg = "Your tweet does not belong to any of the categories.";
+			else
+				msg = "Your tweet belongs to '"+category.getDescription()+"'.";
 			//notification here regarding the classification status
+			System.out.println(msg);
+%>
+			<script type="text/javascript" >
+	        	alert("<%= msg %>");
+	    	</script>
+<%
 		}
 	}
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html style="height:100%">
-<head>
-<title>Typhoon Tweet Tracker</title>
-</head>
-<body style="height:100%">
+
 	<div class="pull-left" style= "width:100%; height: 5%; background-color:black;">
 		<form style="float:left" action="dashboard.jsp" method="GET">
 			<strong style="color:#ecf0f1; margin: 10px"> Classify this tweet: </strong> <input type="text" name="tweet_id" placeholder="Tweet ID" autofocus>

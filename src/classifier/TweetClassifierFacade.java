@@ -27,10 +27,12 @@ public class TweetClassifierFacade {
 		return null;
 	}
 	
-	public void addToDBIfRelevant(Status status){
+	public Category addToDBIfRelevant(Status status){
     	Category category = classify(status);
     	if(category != null){
     		ClassifiedTweetsDataManager.getInstance().insertTweet(status, category);
+    		return category;
     	}
+    	return null;
 	}
 }
