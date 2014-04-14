@@ -13,11 +13,9 @@ import twitter4j.StatusDeletionNotice;
 import twitter4j.StatusListener;
 
 public class TweetStatusListener implements StatusListener {
-	private SMOClassifier classifier;
 	private ArrayList<SMOClassifier> binaryClassifiers;
 	
 	private TweetClassifierFacade classifierFacade;
-	private ClassifiedTweetsDataManager dataManager;
 	
 	public TweetStatusListener(){
 		binaryClassifiers = new ArrayList<SMOClassifier>();
@@ -25,7 +23,7 @@ public class TweetStatusListener implements StatusListener {
 			binaryClassifiers.add(new SMOClassifier(category.getName()));
 		
 		classifierFacade = new TweetClassifierFacade();
-		dataManager = new ClassifiedTweetsDataManager();
+
 	}
 	
 	@Override

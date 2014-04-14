@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import sampler.TweetSampler;
 import tweet.Category;
 import tweet.Tweet;
 import twitter4j.Status;
@@ -16,7 +17,16 @@ import twitter4j.Status;
 public class ClassifiedTweetsDataManager {
     DAOFactory factory;
     long lastInsertedID;
-    public ClassifiedTweetsDataManager() {
+    
+    private static ClassifiedTweetsDataManager instance;
+    
+    public static ClassifiedTweetsDataManager getInstance(){
+    	if(instance == null)
+    		instance = new ClassifiedTweetsDataManager();
+    	return instance;
+    }
+    
+    private ClassifiedTweetsDataManager() {
         factory = DAOFactory.getInstance();
     }
     
@@ -111,6 +121,7 @@ public class ClassifiedTweetsDataManager {
           PreparedStatement ps = null;
           ResultSet rs = null;
           Object[] values = {};
+          ArrayList<Long> tweetIDsToDelete = new ArrayList<Long>();
           try {
               conn = factory.getClassifiedConnection();
               String query = SQL_RETRIEVE+" WHERE category = '"+category.getName()+"' ORDER BY DATETIME DESC LIMIT "+numTweets;
@@ -119,7 +130,13 @@ public class ClassifiedTweetsDataManager {
               
               while (rs.next()) {
                   Tweet tweet = map(rs);
-                  tweets.add(tweet);
+    
+                  // if tweet still exists, add it to the result. else, delete the tweet from the database
+                  //if(TweetSampler.getInstance().isTweetValid(tweet.getID()))
+                	  tweets.add(tweet);
+                  //else
+                	  //tweetIDsToDelete.add(tweet.getID());
+                  
               }
           }
           catch (SQLException e) {
@@ -127,6 +144,9 @@ public class ClassifiedTweetsDataManager {
           }
           finally {
               DAOUtil.close(conn, ps, rs);
+              
+              //for(long id : tweetIDsToDelete)
+            	  //deleteTweet(id);
           }
           return tweets;
     }
@@ -139,4 +159,21 @@ public class ClassifiedTweetsDataManager {
     	return tweetMap;
     }
     
+    public void deleteTweet(long tweetID){
+    	Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = factory.getClassifiedConnection();
+            String deleteQuery = "DELETE FROM TWEETS WHERE ID = "+tweetID;
+                ps = DAOUtil.prepareStatement(conn, deleteQuery, false);
+                ps.executeUpdate();
+        }
+        catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        finally {
+            DAOUtil.close(conn, ps);
+        }
+    	
+    }
 }

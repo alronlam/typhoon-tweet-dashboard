@@ -1,5 +1,6 @@
 package sampler;
 
+import database.ClassifiedTweetsDataManager;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -57,8 +58,23 @@ public class TweetSampler {
 	        return twitter.showStatus(tweetID);
 	    } catch (TwitterException e) {
 	        e.printStackTrace();
+	        
+	        //delete from db, meaning tweetID may have been deleted or does not exist at all.
+	       ClassifiedTweetsDataManager.getInstance().deleteTweet(tweetID);
 	    }
 	    return null;
+	}
+	
+	public boolean isTweetValid(long tweetID){
+		try {
+			Status status = twitter.showStatus(tweetID);
+
+			if(status != null)
+				return true;
+		} catch (TwitterException e) {
+			return false;
+		}
+		return false;
 	}
 	
 }

@@ -18,7 +18,6 @@ public class TweetClassifierFacade {
 	}
 	
 	public Category classify(Status status){
-		ClassifiedTweetsDataManager dm = new ClassifiedTweetsDataManager();
         for(SMOClassifier classifier: binaryClassifiers){
         	Category category = classifier.classify(status);
             if(category!= null){
@@ -31,8 +30,7 @@ public class TweetClassifierFacade {
 	public void addToDBIfRelevant(Status status){
     	Category category = classify(status);
     	if(category != null){
-    		ClassifiedTweetsDataManager dataManager = new ClassifiedTweetsDataManager();
-    		dataManager.insertTweet(status, category);
+    		ClassifiedTweetsDataManager.getInstance().insertTweet(status, category);
     	}
 	}
 }

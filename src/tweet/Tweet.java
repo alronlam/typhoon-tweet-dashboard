@@ -83,4 +83,8 @@ public class Tweet {
     public String getLink(){
     	return  "https://twitter.com/"+username+"/statuses/"+id;
     }
+
+    public long getID(){
+    	return id;
+    }
 }

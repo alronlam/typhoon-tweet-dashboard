@@ -8,7 +8,7 @@
 <%@ page import="sampler.*" %>
 <%@ page import="classifier.*" %>
 <%   
-	boolean liveStream = true;
+	boolean liveStream = false;
 
 	TweetSampler ts = TweetSampler.getInstance();
 	ts.setStatusListener(new TweetStatusListener());
@@ -19,15 +19,16 @@
 	}
 	
 	//check to see if there was a tweet id entered.
-	String tweetIdString = request.getParameter("tweet_id").trim();
-	if(tweetIdString != null && !tweetIdString.isEmpty()){
+	String tweetIdString = request.getParameter("tweet_id");
+	
+	if(tweetIdString != null && !tweetIdString.trim().isEmpty()){
 		long tweetId = Long.parseLong(tweetIdString);
 		Status tweet = ts.getTweetFromId(tweetId);
 		if(tweet != null){
 			TweetClassifierFacade classifierFacade = new TweetClassifierFacade();
 			classifierFacade.addToDBIfRelevant(tweet);
-			
-			//notification here
+
+			//notification here regarding the classification status
 		}
 	}
 %>
@@ -38,7 +39,7 @@
 </head>
 <body style="height:100%">
 	<div class="pull-left" style= "width:100%; height: 5%; background-color:black;">
-		<form style="float:left" action="main.jsp" method="GET">
+		<form style="float:left" action="dashboard.jsp" method="GET">
 			<strong style="color:#ecf0f1; margin: 10px"> Classify this tweet: </strong> <input type="text" name="tweet_id" placeholder="Tweet ID" autofocus>
 			<input type="submit" value="Classify" />
 		</form>
@@ -46,10 +47,8 @@
 	<div style="width:100%; height:95%; background-color:#95a5a6">
 		
 <%
-   //response.setIntHeader("Refresh", 30);
-   	ClassifiedTweetsDataManager dm = new ClassifiedTweetsDataManager();
-	LinkedHashMap<tweet.Category, ArrayList<Tweet>> tweetMap = dm.getLatestTweetsInAllCategories(20);
-	//int i =0;
+	ClassifiedTweetsDataManager dataManager = ClassifiedTweetsDataManager.getInstance();
+	LinkedHashMap<tweet.Category, ArrayList<Tweet>> tweetMap = dataManager.getLatestTweetsInAllCategories(20);
 	for(Map.Entry<tweet.Category, ArrayList<Tweet>> entry: tweetMap.entrySet()){
 %>
 		<div class = "categoryBox" style="border:5px solid; border-color:#bdc3c7; border-radius:20px; box-shadow: 5px 5px 5px #888888;margin: 5px; float:left; width:31%; height:47%; ;background-color:#ecf0f1;">
