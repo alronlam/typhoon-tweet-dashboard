@@ -7,7 +7,7 @@
 <%@ page import="database.*" %> 
 <%@ page import="sampler.*" %>
 <%   
-	response.setIntHeader("Refresh", 15);
+	response.setIntHeader("Refresh", 30);
 	TweetSampler ts = TweetSampler.getInstance();
 	ts.setStatusListener(new TweetStatusListener());
 	ts.sample();
@@ -18,7 +18,7 @@
 <title>Typhoon Tweet Tracker</title>
 </head>
 <body style="height:100%">
-	<div style="width:100%;height:100%; overflow:auto; background-color:green">
+	<div style="width:100%; height:100%; background-color:#95a5a6">
 <%
    //response.setIntHeader("Refresh", 30);
    	ClassifiedTweetsDataManager dm = new ClassifiedTweetsDataManager();
@@ -26,12 +26,16 @@
 	//int i =0;
 	for(Map.Entry<tweet.Category, ArrayList<Tweet>> entry: tweetMap.entrySet()){
 %>
-		<div class = "categoryBox" style="margin: 5px; float:left; width:31%; height:46%; overflow-y:scroll;background-color:gray;">
-			<h2> <%= entry.getKey().getDescription() %></h2>
+		<div class = "categoryBox" style="border:5px solid; border-color:#bdc3c7; border-radius:20px; box-shadow: 5px 5px 5px #888888;margin: 5px; float:left; width:31%; height:47%; ;background-color:#ecf0f1;">
+			<div style="height:10%; background-color:#2980b9; border-radius:20px;">
+				 <h2 style="color:#ecf0f1;text-align:center; margin: 0 auto;"> <%= entry.getKey().getDescription() %> </h2>
+			</div>
+			<div style="height:90%; overflow-y:scroll; border-radius:20px;">
 			<% for(Tweet currTweet: entry.getValue()){ %>
 				<blockquote data-cards="hidden" height="10" class="twitter-tweet" lang="en"><p>currTweet.getText()</p><a href= <%= currTweet.getLink() %>>Link</a></blockquote>
 				<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 			 <% } %>
+			</div>
 		</div>
 <% 
 		//i++;
