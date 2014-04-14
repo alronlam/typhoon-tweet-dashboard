@@ -121,7 +121,7 @@ public class ClassifiedTweetsDataManager {
           PreparedStatement ps = null;
           ResultSet rs = null;
           Object[] values = {};
-          ArrayList<Long> tweetIDsToDelete = new ArrayList<Long>();
+          //ArrayList<Long> tweetIDsToDelete = new ArrayList<Long>();
           try {
               conn = factory.getClassifiedConnection();
               String query = SQL_RETRIEVE+" WHERE category = '"+category.getName()+"' ORDER BY DATETIME DESC LIMIT "+numTweets;

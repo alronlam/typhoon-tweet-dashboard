@@ -8,13 +8,13 @@
 <%@ page import="sampler.*" %>
 <%@ page import="classifier.*" %>
 <%   
-	boolean liveStream = false;
+	boolean liveStream = true;
 
 	TweetSampler ts = TweetSampler.getInstance();
 	ts.setStatusListener(new TweetStatusListener());
 
 	if(liveStream){
-		response.setIntHeader("Refresh", 30);
+		response.setIntHeader("Refresh", 60);
 		ts.sample();
 	}
 	

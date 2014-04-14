@@ -58,9 +58,6 @@ public class TweetSampler {
 	        return twitter.showStatus(tweetID);
 	    } catch (TwitterException e) {
 	        e.printStackTrace();
-	        
-	        //delete from db, meaning tweetID may have been deleted or does not exist at all.
-	       ClassifiedTweetsDataManager.getInstance().deleteTweet(tweetID);
 	    }
 	    return null;
 	}
