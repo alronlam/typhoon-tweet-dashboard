@@ -1,5 +1,9 @@
 package sampler;
 
+import twitter4j.Status;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
 import twitter4j.auth.AccessToken;
@@ -16,9 +20,10 @@ public class TweetSampler {
 	
 	private static final String ACCESS_TOKEN = "461053984-aww1IbpSVcxUE2jN8VqsOkEw8IQeEMusx4IdPM9p";
 	private static final String ACCESS_SECRET = "WGsbat8P8flqKqyAymnWnTnAGI5hZkgdaQSE8XALs7ZEp";
-	private static final String CUSTOMER_TOKEN = "fwbtkGf8N97yyUZyH5YzLw";
-	private static final String CUSTOMER_SECRET = "oQA5DunUy89Co5Hr7p4O2WmdzqiGTzssn2kMphKc8g";
+	private static final String CONSUMER_TOKEN = "fwbtkGf8N97yyUZyH5YzLw";
+	private static final String CONSUMER_SECRET = "oQA5DunUy89Co5Hr7p4O2WmdzqiGTzssn2kMphKc8g";
 	private AccessToken accessToken;
+	private Twitter twitter;
 	private TwitterStream twitterStream;
 	private boolean isSampling;
 	
@@ -26,8 +31,13 @@ public class TweetSampler {
 		isSampling = false;
 		accessToken = new AccessToken(ACCESS_TOKEN, ACCESS_SECRET);
 		twitterStream = new TwitterStreamFactory().getInstance();
-		twitterStream.setOAuthConsumer(CUSTOMER_TOKEN, CUSTOMER_SECRET);
+		twitterStream.setOAuthConsumer(CONSUMER_TOKEN, CONSUMER_SECRET);
 		twitterStream.setOAuthAccessToken(accessToken);
+		
+		
+		twitter = new TwitterFactory().getInstance();
+		twitter.setOAuthConsumer(CONSUMER_TOKEN, CONSUMER_SECRET);
+		twitter.setOAuthAccessToken(accessToken);
 	}
 	
 	public void setStatusListener(TweetStatusListener statusListener){
@@ -42,4 +52,13 @@ public class TweetSampler {
 		}
 	}
 
+	public Status getTweetFromId(long tweetID){
+	    try {
+	        return twitter.showStatus(tweetID);
+	    } catch (TwitterException e) {
+	        e.printStackTrace();
+	    }
+	    return null;
+	}
+	
 }

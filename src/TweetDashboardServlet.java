@@ -40,7 +40,7 @@ public class TweetDashboardServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		/*
 		if(!started){
 			 TwitterStream twitterStream = new TwitterStreamFactory().getInstance();
 		     twitterStream.addListener(new TweetStatusListener());
@@ -59,6 +59,7 @@ public class TweetDashboardServlet extends HttpServlet {
 	     out.println(HTML_START);
 	     out.println("<h1> tweets </h1>");	     
 	     out.println(HTML_END);
+	     */
 	}
 
 	/**
