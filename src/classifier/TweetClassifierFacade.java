@@ -8,17 +8,17 @@ import twitter4j.Status;
 
 public class TweetClassifierFacade {
 
-	private SMOClassifier classifier;
-	private ArrayList<SMOClassifier> binaryClassifiers;
+	private BinarySMOClassifier classifier;
+	private ArrayList<BinarySMOClassifier> binaryClassifiers;
 	
 	public TweetClassifierFacade(){
-		binaryClassifiers = new ArrayList<SMOClassifier>();
+		binaryClassifiers = new ArrayList<BinarySMOClassifier>();
 		for(Category category: Category.values())
-			binaryClassifiers.add(new SMOClassifier(category.getName()));
+			binaryClassifiers.add(new BinarySMOClassifier(category.getName()));
 	}
 	
 	public Category classify(Status status){
-        for(SMOClassifier classifier: binaryClassifiers){
+        for(BinarySMOClassifier classifier: binaryClassifiers){
         	Category category = classifier.classify(status);
             if(category!= null){
             	return category;
@@ -27,9 +27,22 @@ public class TweetClassifierFacade {
 		return null;
 	}
 	
+	public Category classifyWithRelevance(Status status){
+		RelevanceClassifier relevanceClassifier = new RelevanceClassifier();
+		if(relevanceClassifier.isRelevant(status)){
+			Category category = new CategoryClassifier().determineCategory(status);
+			if(category != null){
+				return category;
+			}
+		}
+		return null;
+	}
+	
+	
 	public Category addToDBIfRelevant(Status status){
-    	Category category = classify(status);
-    	if(category != null){
+    	//Category category = classify(status);
+    	Category category = classifyWithRelevance(status);
+		if(category != null){
     		ClassifiedTweetsDataManager.getInstance().insertTweet(status, category);
     		return category;
     	}

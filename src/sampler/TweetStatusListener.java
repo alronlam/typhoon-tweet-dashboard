@@ -2,7 +2,7 @@ package sampler;
 
 import java.util.ArrayList;
 
-import classifier.SMOClassifier;
+import classifier.BinarySMOClassifier;
 import classifier.TweetClassifierFacade;
 import database.ClassifiedTweetsDataManager;
 import database.DataManager;
@@ -13,14 +13,14 @@ import twitter4j.StatusDeletionNotice;
 import twitter4j.StatusListener;
 
 public class TweetStatusListener implements StatusListener {
-	private ArrayList<SMOClassifier> binaryClassifiers;
+	private ArrayList<BinarySMOClassifier> binaryClassifiers;
 	
 	private TweetClassifierFacade classifierFacade;
 	
 	public TweetStatusListener(){
-		binaryClassifiers = new ArrayList<SMOClassifier>();
+		binaryClassifiers = new ArrayList<BinarySMOClassifier>();
 		for(Category category: Category.values())
-			binaryClassifiers.add(new SMOClassifier(category.getName()));
+			binaryClassifiers.add(new BinarySMOClassifier(category.getName()));
 		
 		classifierFacade = new TweetClassifierFacade();
 

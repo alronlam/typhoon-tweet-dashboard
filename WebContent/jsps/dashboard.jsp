@@ -17,7 +17,7 @@
 <%   
 	TweetSampler ts = TweetSampler.getInstance();
 	ts.setStatusListener(new TweetStatusListener());
-	boolean liveStream = false;
+	boolean liveStream = true;
 	if(liveStream){
 		response.setIntHeader("Refresh", 60);
 		ts.sample();
@@ -59,7 +59,7 @@
 		
 <%
 	ClassifiedTweetsDataManager dataManager = ClassifiedTweetsDataManager.getInstance();
-	LinkedHashMap<tweet.Category, ArrayList<Tweet>> tweetMap = dataManager.getLatestTweetsInAllCategories(20);
+	LinkedHashMap<tweet.Category, ArrayList<Tweet>> tweetMap = dataManager.getLatestTweetsInAllCategories(10);
 	for(Map.Entry<tweet.Category, ArrayList<Tweet>> entry: tweetMap.entrySet()){
 %>
 		<div class = "categoryBox" style="border:5px solid; border-color:#bdc3c7; border-radius:20px; box-shadow: 5px 5px 5px #888888;margin: 5px; float:left; width:31%; height:47%; ;background-color:#ecf0f1;">
