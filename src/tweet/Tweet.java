@@ -1,5 +1,7 @@
 package tweet;
 
+import org.vertx.java.core.json.JsonObject;
+
 import twitter4j.Status;
 
 public class Tweet {
@@ -12,6 +14,16 @@ public class Tweet {
     private String userPicURL;
     private String category;
         
+    public Tweet(Status status){
+    	this.id = status.getId();
+    	this.username = status.getUser().getName();
+    	this.text = status.getText();
+    	this.date = status.getCreatedAt().toString();
+    	this.latitude = status.getGeoLocation().getLatitude();
+    	this.longitude = status.getGeoLocation().getLongitude();
+    	this.userPicURL = status.getUser().getBiggerProfileImageURL();
+    }
+    
     public Tweet(long id, String username, String text, 
                 String date, Double latitude, Double longitude, String userPicURL) {
         this.id = id;
@@ -86,5 +98,13 @@ public class Tweet {
 
     public long getID(){
     	return id;
+    }
+    
+    public JsonObject toJsonObject(){
+    	JsonObject json = new JsonObject();
+    	json.putString("text", this.getText());
+    	json.putString("link", this.getLink());
+    	json.putString("category", category);
+    	return json;
     }
 }

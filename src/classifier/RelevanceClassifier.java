@@ -1,5 +1,6 @@
 package classifier;
 
+import helpers.Constants;
 import tweet.Category;
 import twitter4j.Status;
 import weka.classifiers.Classifier;
@@ -58,7 +59,7 @@ public class RelevanceClassifier {
 	private Classifier loadSMOClassifier(){
 		//load the trained classifer from the file - desrialization
 		try{
-			return (Classifier)weka.core.SerializationHelper.read("C:/Users/asus/workspace/Typhoon Tweet Dashboard/data/"+RELEVANCE_MODEL);
+			return (Classifier)weka.core.SerializationHelper.read(Constants.MODEL_PATH+RELEVANCE_MODEL);
 		}
 		catch(Exception e){
 			e.printStackTrace();

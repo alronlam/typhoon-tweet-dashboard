@@ -1,10 +1,10 @@
 package database;
 
+import helpers.Constants;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import javax.servlet.ServletContext;
 
 /**
  * This class represents a DAO factory for a SQL database. You can use {@link #getInstance(String)}
@@ -18,8 +18,8 @@ import javax.servlet.ServletContext;
 public class DAOFactory {
 
     // Constants ----------------------------------------------------------------------------------
-    private static String url = "jdbc:sqlite:C:/Users/asus/workspace/Typhoon Tweet Dashboard/data/Tweets.db";
-    private static String classified_url = "jdbc:sqlite:C:/Users/asus/workspace/Typhoon Tweet Dashboard/data/ClassifiedTweets.db";
+    private static String url = "jdbc:sqlite:"+Constants.MODEL_PATH+"Tweets.db";
+    private static String classified_url = "jdbc:sqlite:"+Constants.MODEL_PATH+"ClassifiedTweets.db";
     // Actions ------------------------------------------------------------------------------------
 
     public static DAOFactory getInstance() {

@@ -1,0 +1,29 @@
+
+.categoryBox{
+	border:5px solid; 
+	border-color:#bdc3c7; 
+	border-radius:20px; 
+	box-shadow: 5px 5px 5px #888888;
+	margin: 5px; float:left; 
+	width:31%; 
+	height:47%; 
+	background-color:#ecf0f1;
+}
+
+.categoryBoxHeaderDiv{
+	height:10%; 
+	background-color:#2980b9; 
+	border-radius:20px;
+}
+
+.categoryBoxH2{
+	color:#ecf0f1;
+	text-align:center; 
+	margin: 0 auto;
+}
+
+.categoryBoxBodyDiv{
+	height:90%;
+	overflow-y:scroll;
+	border-radius:20px;
+}

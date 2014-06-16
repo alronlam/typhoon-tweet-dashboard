@@ -2,11 +2,14 @@ package sampler;
 
 import java.util.ArrayList;
 
+import org.vertx.java.core.Vertx;
+
 import classifier.BinarySMOClassifier;
 import classifier.TweetClassifierFacade;
 import database.ClassifiedTweetsDataManager;
 import database.DataManager;
 import tweet.Category;
+import tweet.Tweet;
 import twitter4j.StallWarning;
 import twitter4j.Status;
 import twitter4j.StatusDeletionNotice;
@@ -17,13 +20,16 @@ public class TweetStatusListener implements StatusListener {
 	
 	private TweetClassifierFacade classifierFacade;
 	
-	public TweetStatusListener(){
+	private Vertx vertx;
+	
+	public TweetStatusListener(Vertx vertx){
 		binaryClassifiers = new ArrayList<BinarySMOClassifier>();
 		for(Category category: Category.values())
 			binaryClassifiers.add(new BinarySMOClassifier(category.getName()));
 		
 		classifierFacade = new TweetClassifierFacade();
-
+		
+		this.vertx = vertx;
 	}
 	
 	@Override
@@ -53,7 +59,9 @@ public class TweetStatusListener implements StatusListener {
 	@Override
 	public void onStatus(Status status) {
 		//do the classification here. if it fit any of the official categories, place in the db
-		classifierFacade.addToDBIfRelevant(status);
+		if(classifierFacade.addToDBIfRelevant(status)!= null){
+			vertx.eventBus().publish("newTweets", new Tweet(status).toJsonObject());
+		}
 	}
 
 	@Override

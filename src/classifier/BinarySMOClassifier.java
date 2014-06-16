@@ -1,5 +1,6 @@
 package classifier;
 
+import helpers.Constants;
 import tweet.Category;
 import twitter4j.Status;
 import weka.classifiers.Classifier;
@@ -57,7 +58,7 @@ public class BinarySMOClassifier {
 	private Classifier loadSMOClassifier(String categoryName){
 		//load the trained classifer from the file - desrialization
 		try{
-			return (Classifier)weka.core.SerializationHelper.read("C:/Users/asus/workspace/Typhoon Tweet Dashboard/data/"+categoryName+".model");
+			return (Classifier)weka.core.SerializationHelper.read(Constants.MODEL_PATH+categoryName+".model");
 		}
 		catch(Exception e){
 			e.printStackTrace();

@@ -10,7 +10,7 @@ public class TweetClassifierFacade {
 
 	private BinarySMOClassifier classifier;
 	private ArrayList<BinarySMOClassifier> binaryClassifiers;
-	
+		
 	public TweetClassifierFacade(){
 		binaryClassifiers = new ArrayList<BinarySMOClassifier>();
 		for(Category category: Category.values())
