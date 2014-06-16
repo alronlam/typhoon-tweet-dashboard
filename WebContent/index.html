@@ -24,7 +24,7 @@
 
     for(var i=0; i<categoryArray.length; i++){
       var currCategory = categoryArray[i];
-      contentHtml += ' <div class = "categoryBox"> <div class ="categoryBoxHeaderDiv"> <h2 class = "categoryBoxH2">'+currCategory.description+'</h2> </div> <div id ="'+currCategory+'" class="categoryBoxBodyDiv">'; 
+      contentHtml += ' <div class = "categoryBox"> <div class ="categoryBoxHeaderDiv"> <h2 class = "categoryBoxH2">'+currCategory.description+'</h2> </div> <div id ="'+currCategory.pk+'" class="categoryBoxBodyDiv">'; 
 
       var tweetsInCategory = currCategory.tweets;
 

@@ -23,6 +23,7 @@ public class JsonHelper {
 				   tweetArray.add(tweet.toJsonObject());
 			   
 			   JsonObject categoryJson = new JsonObject();
+			   categoryJson.putString("pk", category.getName());
 			   categoryJson.putString("description", category.getDescription());
 			   categoryJson.putArray("tweets", tweetArray);
 			   
