@@ -1,5 +1,7 @@
 package sampler;
 
+import helpers.Constants;
+
 import java.util.ArrayList;
 
 import org.vertx.java.core.Vertx;
@@ -59,8 +61,12 @@ public class TweetStatusListener implements StatusListener {
 	@Override
 	public void onStatus(Status status) {
 		//do the classification here. if it fit any of the official categories, place in the db
-		if(classifierFacade.addToDBIfRelevant(status)!= null){
-			vertx.eventBus().publish("newTweets", new Tweet(status).toJsonObject());
+		Category category;
+		if((category = classifierFacade.addToDBIfRelevant(status))!= null){
+			Tweet tweet = new Tweet(status);
+			tweet.setFinalCategory(category.getName());
+			System.out.println("Classified "+status.getText()+" under "+category.getName());
+			vertx.eventBus().publish(Constants.BROADCAST_NEW_TWEET_ADDRESS, tweet.toJsonObject());
 		}
 	}
 

@@ -36,9 +36,9 @@ public class TweetDashboardServer extends Verticle{
 		server.listen(8080);
 		
 		//start the sampling
-//		TweetSampler ts = TweetSampler.getInstance();
-//		ts.setStatusListener(new TweetStatusListener(vertx));
-//		ts.sample();
+		TweetSampler ts = TweetSampler.getInstance();
+		ts.setStatusListener(new TweetStatusListener(vertx));
+		ts.sample();
 	}
 	
 	private void registerHandlers(){

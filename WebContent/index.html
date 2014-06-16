@@ -24,22 +24,30 @@
 
     for(var i=0; i<categoryArray.length; i++){
       var currCategory = categoryArray[i];
-      contentHtml += ' <div class = "categoryBox"> <div class ="categoryBoxHeaderDiv"> <h2 class = "categoryBoxH2">'+currCategory.description+'</h2> </div>'; 
+      contentHtml += ' <div class = "categoryBox"> <div class ="categoryBoxHeaderDiv"> <h2 class = "categoryBoxH2">'+currCategory.description+'</h2> </div> <div id ="'+currCategory+'" class="categoryBoxBodyDiv">'; 
 
       var tweetsInCategory = currCategory.tweets;
 
       for(var j=0; j<tweetsInCategory.length; j++){
         var currTweet = tweetsInCategory[j];
-        contentHtml += '<div class="categoryBoxBodyDiv"><blockquote data-cards="hidden" height="10" class="twitter-tweet" lang="en"><p>'+currTweet.text+'</p><a href= <%='+currTweet.link+'%>></a></blockquote><script async src="js/widgets.js" charset="utf-8"><\/script></div>';
+        contentHtml += createElementForTweet(currTweet);
       }
 
-      contentHtml +='</div>'; //close the categoryBox
+      contentHtml +='</div></div>'; //close the categoryBoxBodyDiv and categoryBox
     }
     $('#content').html(contentHtml);
   }
 
   function addNewTweet(msg){
-    console.log("In add new tweet");
+    console.log("went in add new tweet");
+    console.log(msg);
+    var tweetJson = msg;
+    $('.'+tweetJson.category).append(createElementForTweet(tweetJson));
+    console.log($('.'+tweetJson.category));
+  }
+
+  function createElementForTweet(tweet){
+    return '<blockquote data-cards="hidden" height="10" class="twitter-tweet" lang="en"><p>'+tweet.text+'</p><a href= <%='+tweet.link+'%>></a></blockquote><script async src="js/widgets.js" charset="utf-8"><\/script>';
   }
 
   var eb = null;
@@ -60,7 +68,7 @@
       eb.onopen = function() {
         eb.send(SERVER_REQUEST_INITIAL_CATEGORIES, {}, buildCategoryBoxes);
         //execute this once the category boxes have been built
-        //eb.registerHandler(RECEIVE_NEW_TWEETS_ADDRESS, addNewTweet);
+        eb.registerHandler(RECEIVE_NEW_TWEETS_ADDRESS, addNewTweet);
       };
 
       eb.onclose = function() {
