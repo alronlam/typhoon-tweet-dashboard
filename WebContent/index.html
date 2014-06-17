@@ -42,11 +42,12 @@
     console.log("went in add new tweet");
     console.log(msg);
     var tweetJson = msg;
-    $('.'+tweetJson.category).append(createElementForTweet(tweetJson));
+    $('#'+tweetJson.category).prepend(createElementForTweet(tweetJson));
     console.log($('.'+tweetJson.category));
   }
 
   function createElementForTweet(tweet){
+    
     return '<blockquote data-cards="hidden" height="10" class="twitter-tweet" lang="en"><p>'+tweet.text+'</p><a href= <%='+tweet.link+'%>></a></blockquote><script async src="js/widgets.js" charset="utf-8"><\/script>';
   }
 
