@@ -15,13 +15,15 @@ public class Tweet {
     private String category;
         
     public Tweet(Status status){
-    	this.id = status.getId();
-    	this.username = status.getUser().getName();
-    	this.text = status.getText();
-    	this.date = status.getCreatedAt().toString();
-    	this.latitude = status.getGeoLocation().getLatitude();
-    	this.longitude = status.getGeoLocation().getLongitude();
-    	this.userPicURL = status.getUser().getBiggerProfileImageURL();
+    	try{
+	    	this.id = status.getId();
+	    	this.text = status.getText();
+	    	this.username = status.getUser().getName();
+	    	this.date = status.getCreatedAt().toString();
+	    	this.latitude = status.getGeoLocation().getLatitude();
+	    	this.longitude = status.getGeoLocation().getLongitude();
+	    	this.userPicURL = status.getUser().getBiggerProfileImageURL();
+    	}catch(Exception e){}
     }
     
     public Tweet(long id, String username, String text, 

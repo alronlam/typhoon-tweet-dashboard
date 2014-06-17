@@ -38,9 +38,9 @@ public class TweetClassifierFacade {
 		return null;
 	}
 	
-	
 	public Category addToDBIfRelevant(Status status){
     	//Category category = classify(status);
+		System.out.println("went in here");
     	Category category = classifyWithRelevance(status);
 		if(category != null){
     		ClassifiedTweetsDataManager.getInstance().insertTweet(status, category);

@@ -12,7 +12,7 @@
     <div class="span12" style= "width:100%;  background-color:#0D1522; float:left; display:block;">
       <form class="navbar-form navbar-left">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Tweet ID" autofocus>
+          <input type="text" id = "tweetID" class="form-control" placeholder="Tweet ID" required autofocus>
         </div>
         <button type="submit" class="btn btn-primary" onclick = "classifyTweetID(); return false;">Classify</button>
       </form>
@@ -32,7 +32,20 @@
 <script>
 
   function classifyTweetID(){
-    console.log("clicked!");
+    eb.send(CLASSIFY_TWEETS_ADDRESS, {'id': $('#tweetID').val()},receiveTweetClassificationResult);
+  }
+
+  function receiveTweetClassificationResult(result){
+    if(!result){
+      alert("The tweet ID is not valid or it does not belong to any category.");
+      return;
+    }
+
+    addTweetToCategory(result.tweet, result.category.pk);
+  }
+
+  function addTweetToCategory(tweet, category){
+    $('#'+category+" > div.panel-body").prepend(createElementForTweet(tweet));
   }
 
  function buildCategoryBoxes(msg){
@@ -73,20 +86,19 @@
   }
 
   function addNewTweet(msg){
-    console.log("went in add new tweet");
-    console.log(msg);
     var tweetJson = msg;
-    $('#'+tweetJson.category+".panel-body").prepend(createElementForTweet(tweetJson));
+    addTweetToCategory(tweetJson, tweetJson.category);
   }
 
   function createElementForTweet(tweet){
 
-    return '<blockquote data-cards="hidden" height="10" class="twitter-tweet" lang="en"><p>'+tweet.text+'</p><a href= <%='+tweet.link+'%>></a></blockquote><script async src="js/widgets.js" charset="utf-8"><\/script>';
+    return '<blockquote data-cards="hidden" height="10" class="twitter-tweet" lang="en"><a href="'+tweet.link+'"><p>'+tweet.text+'</p></a></blockquote><script async src="js/widgets.js" charset="utf-8"><\/script>';
   }
 
   var eb = null;
   var SERVER_REQUEST_INITIAL_CATEGORIES = "requestTweets";
   var RECEIVE_NEW_TWEETS_ADDRESS = "newTweets";
+  var CLASSIFY_TWEETS_ADDRESS = "classifyTweets";
   openConn();
 
   function closeConn() {

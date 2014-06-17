@@ -1,4 +1,5 @@
 package server;
+import handlers.ClassifyTweetRequestHandler;
 import handlers.HttpRequestHandler;
 import handlers.InitialTweetsRequestHandler;
 import helpers.Constants;
@@ -43,5 +44,6 @@ public class TweetDashboardServer extends Verticle{
 	
 	private void registerHandlers(){
 		vertx.eventBus().registerHandler(Constants.REQUEST_TWEETS_ADDRESS, new InitialTweetsRequestHandler());
+		vertx.eventBus().registerHandler(Constants.CLASSIFY_TWEETS_ADDRESS, new ClassifyTweetRequestHandler());
 	}
 }
